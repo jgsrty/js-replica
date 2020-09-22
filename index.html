@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let obj1 = {
+        a: 1,
+        b: [1, 2, 3, 4, 5],
+        c: {
+          d: 123,
+        },
+        e: new Date(),
+        f: function () {},
+        g: /rty/,
+        h: null,
+      };
+      let obj2 = {};
+
+      // // 直接赋值
+      // 赋值对象在堆栈中的地址，而不是堆中的数据
+      // obj2 = obj1
+      // obj1.a = 2
+      // console.log('obj1')
+      // console.log(obj1)
+      // console.log('obj2')
+      // console.log(obj2)
+
+      // 浅拷贝-循环拷贝
+      // for (let key in obj1) {
+      //   obj2[key] = obj1[key];
+      // }
+      // obj2.a = 2
+      // obj2.b[0] = 33
+      // obj2.c.d = '123'
+      // console.log('obj1')
+      // console.log(obj1)
+      // console.log('obj2')
+      // console.log(obj2)
+
+      // 浅拷贝-es6
+      // obj2 = Object.assign({}, obj1)
+      // obj2 = {...obj1}
+      // obj2.a = 2
+      // obj2.b[0] = 33
+      // obj2.c.d = '123'
+      // console.log('obj1')
+      // console.log(obj1)
+      // console.log('obj2')
+      // console.log(obj2)
+
+      // 深拷贝-递归
+      function deep(obj) {
+        // null
+        if (obj === null) return null;
+
+        if (typeof obj !== "object") return obj;
+        if (obj instanceof RegExp) {
+          return new RegExp(obj);
+        }
+        if (obj instanceof Date) {
+          return new Date(obj);
+        }
+
+        let newObj = new Object();
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            newObj[key] = deep(obj[key]);
+          }
+        }
+        return newObj;
+      }
+      // obj2 = deep(obj1);
+      // console.log(obj2);
+      // $.extend()深浅拷贝 参考jQuery源码
+
+      // 深拷贝-JSON序列化
+      // 不能操作日期、正则、函数
+      // obj2 = JSON.parse(JSON.stringify(obj1));
+      // console.log(JSON.parse(JSON.stringify({ test: new Date() })));
+      // console.log(JSON.parse(JSON.stringify({ test: /rty/ })));
+      // console.log(JSON.parse(JSON.stringify({ test: function () {} })));
+    </script>
+  </body>
+</html>
